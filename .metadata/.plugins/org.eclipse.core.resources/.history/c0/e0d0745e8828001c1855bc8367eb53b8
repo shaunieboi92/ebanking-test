@@ -1,0 +1,54 @@
+package com.ebanking.transactions.kafka;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.stereotype.Service;
+
+import com.ebanking.common.model.Transaction;
+import com.ebanking.transactions.payload.TransactionMsg;
+
+@Service
+public class Producer {
+
+	private static final Logger logger = LoggerFactory
+			.getLogger(Producer.class);
+
+	private static final String TOPIC = "test_topic";
+	private static final String TXN_TOPIC = "transaction_topic";
+	private static final String TXN_USD_TOPIC = "transaction_usd_conv_topic";
+
+
+//	@Autowired
+//	@Qualifier("baseTemplate")
+//	private KafkaTemplate<String, String> kafkaTemplate;
+//	
+//	@Autowired
+//	@Qualifier("kafkaTxnTemplate")
+//	KafkaTemplate<String, Transaction> kafkaTxnTemplate;
+//	
+//	@Autowired
+//	@Qualifier("genericTemplate")
+//	KafkaTemplate<String, TransactionMsg> kafkaBaseTemplate;
+	
+	@Autowired
+	KafkaTemplate<String, Object> kafkaTemplate;
+	
+
+	public void sendMessage(String msg) {
+		logger.info(String.format("#### -> Producing message -> %s", msg));
+		this.kafkaTemplate.send(TOPIC, msg);
+	}
+
+	public void sendMessage(Transaction txn) {
+		logger.info(String.format("#### -> Producing txn topic: %s -> %s", TXN_TOPIC,txn.getAccountIBAN()));
+		this.kafkaTemplate.send(TXN_TOPIC, txn);
+	}
+	
+	public void sendMessage(TransactionMsg txn) {
+		logger.info(String.format("#### -> Producing txn topic: %s -> %s", TXN_USD_TOPIC,txn.getAccountIBAN()));
+		this.kafkaTemplate.send(TXN_USD_TOPIC, txn);
+	}
+}

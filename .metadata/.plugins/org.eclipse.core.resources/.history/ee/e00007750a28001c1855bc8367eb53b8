@@ -1,0 +1,60 @@
+package com.ebanking;
+
+import java.math.BigDecimal;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.ebanking.common.model.Transaction;
+import com.ebanking.transactions.kafka.Producer;
+import com.ebanking.transactions.util.ConversionRateUtil;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+
+@RestController
+@RequestMapping(value = "/transactions")
+public class TransactionsController {
+
+	@Autowired
+	private Producer producer;
+
+	@Autowired
+	private ConversionRateUtil convRateUtil;
+
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "get a listing of money account transactions by date")})
+	@GetMapping("/get_customer_transactions")
+	public String home() {
+		return "Welcome home";
+	}
+
+	@PostMapping("/publish")
+	public void messageToTopic(@RequestParam(name = "message") String msg) {
+		this.producer.sendMessage(msg);
+	}
+
+	@PostMapping("/publish_txn")
+	public void messageToTxnTopic(@RequestBody Transaction txn) {
+		this.producer.sendMessage(txn);
+	}
+
+	// @PostMapping("/get_txn")
+	// public void messageToTxnTopic() {
+	// this.producer.sendMessage(txn);
+	// }
+
+	@PostMapping("testtest")
+	public Double testController()
+			throws JsonMappingException, JsonProcessingException {
+		return convRateUtil.convertCurrency("SGD", "USD",
+				1000.00);
+	}
+}

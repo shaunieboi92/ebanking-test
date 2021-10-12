@@ -1,0 +1,85 @@
+package com.ebanking.common.model;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+@Entity
+@Table(name = "USER")
+public class User extends SecurityAudit {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@JsonIgnore
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "USER_ID")
+	private long userId;
+
+	@Column(name = "USER_FULL_NAME")
+	private String userFullName;
+
+	@Column(name = "LOGIN_ID")
+	private String loginId;
+
+	@Column(name = "UUID")
+	private String uuid;
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+	@JsonIgnore
+	private List<String> IBAN = new ArrayList<>();
+
+	public long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(long userId) {
+		this.userId = userId;
+	}
+
+	public String getUserFullName() {
+		return userFullName;
+	}
+
+	public void setUserFullName(String userFullName) {
+		this.userFullName = userFullName;
+	}
+
+	public String getUuid() {
+		return uuid;
+	}
+
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
+	}
+
+	public String getLoginId() {
+		return loginId;
+	}
+
+	public void setLoginId(String loginId) {
+		this.loginId = loginId;
+	}
+
+	public List<String> getIBAN() {
+		return IBAN;
+	}
+
+	public void setIBAN(List<String> iBAN) {
+		IBAN = iBAN;
+	}
+
+}

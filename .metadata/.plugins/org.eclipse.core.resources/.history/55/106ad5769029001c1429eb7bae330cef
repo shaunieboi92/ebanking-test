@@ -1,0 +1,5 @@
+package com.ebanking.common.payload;
+
+public class PagedResponse {
+
+}

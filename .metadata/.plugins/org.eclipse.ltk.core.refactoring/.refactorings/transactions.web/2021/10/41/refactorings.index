@@ -1,0 +1,18 @@
+1633442102303	Rename package 'com.epselonbase'
+1633499302773	Delete element
+1633501654585	Delete elements
+1633501999584	Copy file
+1633507021034	Delete element
+1633507298795	Delete element
+1633507332971	Delete element
+1633507805450	Delete element
+1633510425935	Delete element
+1633532273468	Rename type 'TestController'
+1633617723028	Rename type 'KafkaConsumer'
+1633617731006	Rename type 'KafkaProducer'
+1633700902382	Delete element
+1633737453610	Rename method 'convertCurrencyToUSD'
+1633737483771	Rename method 'normalizeTxnUSD'
+1633737508161	Rename field 'TXN_USD_TOPIC'
+1633737981868	Rename type 'ConversionRateUtil'
+1633738026303	Rename field 'conversionRateUtil'

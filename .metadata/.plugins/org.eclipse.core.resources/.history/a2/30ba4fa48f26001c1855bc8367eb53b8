@@ -1,0 +1,93 @@
+package com.ebanking.uaa.payload;
+
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+
+public class UserDetailsResponse extends User implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private String firstName;
+
+	private String lastName;
+
+	private String dutyRole;
+
+	private boolean isExpiring = false;
+
+	private long daysToExp;
+
+	private List<String> systemRole;
+
+	public UserDetailsResponse(String username, String password,
+			boolean enabled, boolean accountNonExpired,
+			boolean credentialsNonExpired, boolean accountNonLocked,
+			Collection<? extends GrantedAuthority> authorities,
+			String firstName, String lastName, String dutyRole,
+			boolean isExpiring, long daysToExp, List<String> systemRole) {
+		super(username, password, enabled, accountNonExpired,
+				credentialsNonExpired, accountNonLocked, authorities);
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.dutyRole = dutyRole;
+		this.isExpiring = isExpiring;
+		this.daysToExp = daysToExp;
+		this.systemRole = systemRole;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getDutyRole() {
+		return dutyRole;
+	}
+
+	public void setDutyRole(String dutyRole) {
+		this.dutyRole = dutyRole;
+	}
+
+	public boolean isExpiring() {
+		return isExpiring;
+	}
+
+	public void setExpiring(boolean isExpiring) {
+		this.isExpiring = isExpiring;
+	}
+
+	public long getDaysToExp() {
+		return daysToExp;
+	}
+
+	public void setDaysToExp(long daysToExp) {
+		this.daysToExp = daysToExp;
+	}
+
+	public List<String> getSystemRole() {
+		return systemRole;
+	}
+
+	public void setSystemRole(List<String> systemRole) {
+		this.systemRole = systemRole;
+	}
+
+}

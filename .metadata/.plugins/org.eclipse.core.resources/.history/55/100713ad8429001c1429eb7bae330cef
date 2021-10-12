@@ -1,0 +1,5 @@
+package com.ebanking.common.model;
+
+public class UserIBANMapping {
+
+}

@@ -1,0 +1,5 @@
+package com.ebanking.common.repository;
+
+public class TransactionRepository extends JpaRepository<Transaction, Long> {
+
+}

@@ -1,0 +1,9 @@
+package com.ebanking.transactions.service;
+
+import com.ebanking.transactions.payload.TransactionMsg;
+
+public interface TransactionService {
+	
+	public TransactionMsg convertCurrencyToUSD(TransactionMsg txnMsg);
+
+}

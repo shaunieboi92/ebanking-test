@@ -1,0 +1,33 @@
+package com.ebanking.transactions.service.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.ebanking.transactions.kafka.Producer;
+import com.ebanking.transactions.payload.TransactionMsg;
+import com.ebanking.transactions.service.TransactionService;
+import com.ebanking.transactions.util.ConversionRateUtil;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+
+@Service
+public class TransactionServiceImpl implements TransactionService {
+
+	@Autowired
+	ConversionRateUtil conversionRateUtil;
+	
+	@Autowired
+	Producer producer;
+
+	@Override
+	public TransactionMsg convertCurrencyToUSD(TransactionMsg txnMsg)
+			throws JsonMappingException, JsonProcessingException {
+		Double amtUSD = conversionRateUtil.convertCurrency(txnMsg.getCurrency(),
+				"USD", txnMsg.getAmt());
+		txnMsg.setAmt(amtUSD);
+		txnMsg.setCurrency("USD");
+		producer.normalizeTxnUSD(txnMsg);
+		return txnMsg;
+	}
+
+}

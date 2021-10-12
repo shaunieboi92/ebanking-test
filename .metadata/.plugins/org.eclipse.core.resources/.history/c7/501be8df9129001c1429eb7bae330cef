@@ -1,0 +1,12 @@
+package com.ebanking.transactions.service;
+
+import com.ebanking.transactions.payload.TransactionMsg;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+
+public interface TransactionService {
+
+	public TransactionMsg convertCurrencyAndMask(TransactionMsg txnMsg)
+			throws JsonMappingException, JsonProcessingException;
+
+}

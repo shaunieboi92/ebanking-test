@@ -1,0 +1,8 @@
+package com.ebanking.transactions.kafka;
+
+public class KafkaConsumer {
+
+	public void consumeMsg(String msg) {
+		System.out.println(msg);
+	}
+}

@@ -1,0 +1,12 @@
+package com.ebanking.transactions.kafka;
+
+import org.springframework.kafka.annotation.KafkaListener;
+
+@Service
+public class KafkaConsumer {
+
+	@KafkaListener(topics = "test_topic", groupId = "group_id")
+	public void consumeMsg(String msg) {
+		System.out.println(msg);
+	}
+}

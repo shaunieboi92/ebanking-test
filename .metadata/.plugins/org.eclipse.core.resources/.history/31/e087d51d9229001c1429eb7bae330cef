@@ -1,0 +1,81 @@
+package com.ebanking.transactions.service.impl;
+
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
+import com.ebanking.common.model.Transaction;
+import com.ebanking.common.repository.CurrencyRepository;
+import com.ebanking.common.repository.TransactionRepository;
+import com.ebanking.common.util.Constants;
+import com.ebanking.transactions.kafka.Producer;
+import com.ebanking.transactions.payload.TransactionMsg;
+import com.ebanking.transactions.service.TransactionService;
+import com.ebanking.transactions.util.TransactionUtil;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.Predicate;
+
+@Service
+public class TransactionServiceImpl implements TransactionService {
+
+	@Autowired
+	TransactionUtil txnUtil;
+
+	@Autowired
+	TransactionRepository txnRepository;
+
+	@Autowired
+	CurrencyRepository currencyRepository;
+
+	@Autowired
+	Producer producer;
+
+	private static final Logger logger = LoggerFactory
+			.getLogger(TransactionServiceImpl.class);
+
+	@Override
+	public TransactionMsg convertCurrencyAndMask(TransactionMsg txnMsg)
+			throws JsonMappingException, JsonProcessingException {
+		Double amtUSD = txnUtil.convertCurrency(txnMsg.getCurrency(), "USD",
+				txnMsg.getAmt());
+		txnMsg.setAmt(amtUSD);
+		txnMsg.setCurrency("USD");
+
+		String maskedIBAN = txnUtil.maskAccIBAN(txnMsg.getAccountIBAN());
+		txnMsg.setAccountIBAN(maskedIBAN);
+		producer.normalizeTxnAndMask(txnMsg);
+		logger.info("new txn msg->" + txnMsg.toString());
+		Transaction txn = mapTransaction(txnMsg);
+		logger.info("saving txn");
+		txnRepository.save(txn);
+		return txnMsg;
+	}
+
+	private Transaction mapTransaction(TransactionMsg txnMsg) {
+		Transaction txn = new Transaction();
+		txn.setAccountIBAN(txnMsg.getAccountIBAN());
+		txn.setAmt(txnMsg.getAmt());
+		txn.setCurrency(
+				currencyRepository.findByCurrencyCode(txnMsg.getCurrency()));
+		txn.setDescription(txnMsg.getDescription());
+		txn.setTransactionDate(txnMsg.getTransactionDate());
+		txn.setCreatedBy(Constants.SYSTEM);
+		return txn;
+	}
+
+	@Override
+	public ResponseEntity<List<TransactionMsg>> getClientTransactions(
+			Predicate predicate, Pageable pageable) {
+		BooleanBuilder where = new BooleanBuilder();
+		where.and(predicate).and(QTransaction.transaction.deleted.eq(Constants.FALSE));
+		
+	}
+
+}

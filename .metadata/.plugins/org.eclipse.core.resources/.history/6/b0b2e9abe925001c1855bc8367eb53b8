@@ -1,0 +1,19 @@
+package com.ebanking.common.model;
+
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "ACC_TRANSACTIONS")
+public class Transactions extends SecurityAudit{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "VCMPB_CASE_ID")
+	private long vcmpbCaseId;
+}

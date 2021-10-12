@@ -1,0 +1,68 @@
+package com.ebanking.common.model;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+@Entity
+@Table(name = "CLIENT")
+public class User extends SecurityAudit {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@JsonIgnore
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "USER_ID")
+	private long userId;
+
+	@Column(name = "USER_FULL_NAME")
+	private String userFullName;
+
+	@Column(name = "LOGIN_ID")
+	private String loginId;
+
+	@Column(name = "UUID", unique = true)
+	private String uuid;
+
+	public long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(long userId) {
+		this.userId = userId;
+	}
+
+	public String getUserFullName() {
+		return userFullName;
+	}
+
+	public void setUserFullName(String userFullName) {
+		this.userFullName = userFullName;
+	}
+
+	public String getUuid() {
+		return uuid;
+	}
+
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
+	}
+
+	public String getLoginId() {
+		return loginId;
+	}
+
+	public void setLoginId(String loginId) {
+		this.loginId = loginId;
+	}
+
+}

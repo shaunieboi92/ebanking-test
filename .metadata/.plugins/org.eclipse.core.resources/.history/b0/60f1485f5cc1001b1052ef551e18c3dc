@@ -1,0 +1,10 @@
+package com.epselonbase;
+
+@RestController
+public class TestController {
+	
+	@GetMapping("/")
+	public String home() {
+		return "Welcome home";
+	}
+}

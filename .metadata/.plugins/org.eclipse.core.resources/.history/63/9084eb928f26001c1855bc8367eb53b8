@@ -1,0 +1,5 @@
+package com.ebanking.uaa.payload;
+
+public class UserDetailsResponse {
+
+}

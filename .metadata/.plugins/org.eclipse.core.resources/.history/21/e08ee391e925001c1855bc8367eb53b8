@@ -1,0 +1,18 @@
+package com.ebanking.common.model;
+
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "ACC_TRANSACTIONS")
+public class Transactions extends SecurityAudit{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@Column(name = "CREATED_ON", nullable = false, updatable = false)
+	@CreatedDate
+	private Instant createdOn;
+}

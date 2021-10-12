@@ -1,0 +1,9 @@
+package com.ebanking.transactions.util;
+
+import org.springframework.beans.factory.annotation.Value;
+
+public class ConversionRateUtil {
+
+	@Value("${conversion.rate.usd.url}")
+	private String currencyConvUSDUrl;
+}

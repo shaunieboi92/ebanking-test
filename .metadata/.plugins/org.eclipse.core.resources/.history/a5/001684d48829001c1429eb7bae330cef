@@ -1,0 +1,5 @@
+package com.ebanking.transactions.payload;
+
+public class ClientTransactionRequest {
+
+}

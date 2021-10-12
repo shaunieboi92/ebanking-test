@@ -1,0 +1,33 @@
+package com.ebanking.transactions.kafka;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.stereotype.Service;
+
+import com.ebanking.common.model.Transaction;
+import com.ebanking.transactions.payload.TransactionMsg;
+
+@Service
+public class Consumer {
+	
+
+
+	@KafkaListener(topics = "test_topic", groupId = "group_id")
+	public void consumeMsg(String msg) {
+		System.out.println(msg);
+	}
+
+	@KafkaListener(topics = "transaction_topic", groupId = "group_json_id", containerFactory = "kafkaListenerContainerFactoryTxn")
+	public void consumeTxnMsg(Transaction txn) {
+		System.out.println("consumed json msg:" + txn);
+	}
+	
+	@KafkaListener(topics = "transaction_usd_conv_topic", groupId = "group_txn_msg_id", containerFactory = "kafkaListenerContainerFactoryTxn")
+	public void consumeTxnMsg(TransactionMsg txn) {
+		System.out.println("consumed json msg:" + txn);
+	}
+	
+	
+	
+	
+}

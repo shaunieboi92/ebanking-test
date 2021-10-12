@@ -1,0 +1,17 @@
+package com.ebanking.transactions.service.impl;
+
+import org.springframework.stereotype.Service;
+
+import com.ebanking.transactions.payload.TransactionMsg;
+import com.ebanking.transactions.service.TransactionService;
+
+@Service
+public class TransactionServiceImpl implements TransactionService{
+
+	@Override
+	public TransactionMsg convertCurrencyToUSD(TransactionMsg txnMsg) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

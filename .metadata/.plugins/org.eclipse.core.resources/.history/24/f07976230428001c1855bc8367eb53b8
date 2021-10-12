@@ -1,0 +1,33 @@
+package com.ebanking.transactions.util;
+
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.web.client.RestTemplate;
+
+import com.fasterxml.jackson.core.JsonParser;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
+@Component
+public class ConversionRateUtil {
+
+	@Value("${conversion.rate.url}")
+	private String currencyConvUrl;
+	
+	RestTemplate restTemplate = new RestTemplate();
+	
+	private final String currencyConvMap = "";
+	
+	public String convertCurrency(String fromCurrency, String toCurrency) {
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		String resp = restTemplate.getForObject(currencyConvUrl + toCurrency, String.class);
+		return resp;
+	}
+}

@@ -1,0 +1,140 @@
+package com.ebanking.transactions.payload;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.time.Instant;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import org.apache.kafka.common.serialization.Serializer;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class TransactionMsg implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private long transactionId;
+
+	private String uuid;
+
+	private BigDecimal amt;
+
+	private String currency;
+
+	private String accountIBAN;
+
+	private Instant transactionDate;
+
+	private String description;
+	
+	private String creditDebitType;
+
+	
+	
+	public long getTransactionId() {
+		return transactionId;
+	}
+
+	public void setTransactionId(long transactionId) {
+		this.transactionId = transactionId;
+	}
+
+	public String getUuid() {
+		return uuid;
+	}
+
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
+	}
+
+	public BigDecimal getAmt() {
+		return amt;
+	}
+
+	public void setAmt(BigDecimal amt) {
+		this.amt = amt;
+	}
+
+	public String getCurrency() {
+		return currency;
+	}
+
+	public void setCurrency(String currency) {
+		this.currency = currency;
+	}
+
+	public String getAccountIBAN() {
+		return accountIBAN;
+	}
+
+	public void setAccountIBAN(String accountIBAN) {
+		this.accountIBAN = accountIBAN;
+	}
+
+	public Instant getTransactionDate() {
+		return transactionDate;
+	}
+
+	public void setTransactionDate(Instant transactionDate) {
+		this.transactionDate = transactionDate;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getCreditDebitType() {
+		return creditDebitType;
+	}
+
+	public void setCreditDebitType(String creditDebitType) {
+		this.creditDebitType = creditDebitType;
+	}
+
+	/**
+     * Kafka Serializer implementation.
+     * Serializes a Transaction to JSON so it can be sent to a Kafka Topic
+     */
+    public static class TransactionMsgSerializer implements Serializer<TransactionMsg> {
+        @Override
+        public byte[] serialize(String topic, TransactionMsg data) {
+            byte[] serializedData = null;
+            ObjectMapper objectMapper = new ObjectMapper();
+            try {
+                serializedData = objectMapper.writeValueAsString(data).getBytes();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return serializedData;
+        }
+    }
+
+	@Override
+	public String toString() {
+		return "TransactionMsg [transactionId=" + transactionId + ", uuid="
+				+ uuid + ", amt=" + amt + ", currency=" + currency
+				+ ", accountIBAN=" + accountIBAN + ", transactionDate="
+				+ transactionDate + ", description=" + description
+				+ ", creditDebitType=" + creditDebitType + "]";
+	}
+
+
+
+}

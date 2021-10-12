@@ -1,0 +1,5 @@
+package com.ebanking.uaa.utility;
+
+public class JwtUtility {
+
+}
